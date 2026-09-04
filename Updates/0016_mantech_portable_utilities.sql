@@ -35,14 +35,10 @@ UPDATE `mantech_item_seed` SET
     `spellcategory_1` = 0,
     `spellcategorycooldown_1` = 0,
     `bonding` = 1,
-    `description` = 'Deploys a mailbox for 10 minutes. Reusable. 10 minute cooldown.',
+    `description` = 'Deploys a mailbox for 5 minutes. Reusable. 10 minute cooldown.',
     `ScriptName` = '',
     `Duration` = 0;
 INSERT INTO `item_template` SELECT * FROM `mantech_item_seed`;
-
-INSERT INTO `spell_scripts` (`Id`, `ScriptName`)
-VALUES (30524, 'spell_mantech_portable_mailbox')
-ON DUPLICATE KEY UPDATE `ScriptName` = VALUES(`ScriptName`);
 
 TRUNCATE TABLE `mantech_item_seed`;
 
