@@ -30,6 +30,29 @@ SET `MovementType` = 0
 WHERE `guid` = 156139 AND `id` = 3737 AND `MovementType` = 2
   AND NOT EXISTS (SELECT 1 FROM `creature_movement` WHERE `id` = 156139);
 
+-- Upstream converted the Old Hillsbrad barrel pools to gameobject spawn
+-- groups. Apply the same conversion safely to an existing database; the
+-- full instance seed file is not designed to be replayed over live data.
+DELETE FROM `spawn_group_spawn` WHERE `Id` BETWEEN 5601001 AND 5601005;
+DELETE FROM `spawn_group` WHERE `Id` BETWEEN 5601001 AND 5601005;
+DELETE FROM `pool_gameobject` WHERE `pool_entry` BETWEEN 49601 AND 49605;
+DELETE FROM `pool_template` WHERE `entry` BETWEEN 49601 AND 49605;
+
+INSERT INTO `spawn_group`
+  (`Id`,`Name`,`Type`,`MaxCount`,`WorldState`,`WorldStateExpression`,`Flags`) VALUES
+  (5601001,'Old Hillsbrad Foothills - Orc Hut 1 - Barrel (182589)',1,1,0,0,0),
+  (5601002,'Old Hillsbrad Foothills - Orc Hut 2 - Barrel (182589)',1,1,0,0,0),
+  (5601003,'Old Hillsbrad Foothills - Orc Hut 3 - Barrel (182589)',1,1,0,0,0),
+  (5601004,'Old Hillsbrad Foothills - Orc Hut 4 - Barrel (182589)',1,1,0,0,0),
+  (5601005,'Old Hillsbrad Foothills - Orc Hut 5 - Barrel (182589)',1,1,0,0,0);
+
+INSERT INTO `spawn_group_spawn` (`Id`,`Guid`,`SlotId`,`Chance`) VALUES
+  (5601001,5600036,-1,0),(5601001,5600047,-1,0),(5601001,5600048,-1,0),
+  (5601002,5600038,-1,0),(5601002,5600039,-1,0),(5601002,5600046,-1,0),
+  (5601003,5600035,-1,0),(5601003,5600041,-1,0),(5601003,5600045,-1,0),
+  (5601004,5600034,-1,0),(5601004,5600043,-1,0),(5601004,5600044,-1,0),
+  (5601005,5600037,-1,0),(5601005,5600040,-1,0),(5601005,5600042,-1,0);
+
 CREATE TABLE IF NOT EXISTS `mantech_migration` (
   `id` varchar(64) NOT NULL,
   `applied_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
