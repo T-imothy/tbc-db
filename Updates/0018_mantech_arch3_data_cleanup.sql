@@ -1,6 +1,8 @@
 -- ManTech Arch3: targeted cleanup from TBC dev soak diagnostics.
 
-DELETE FROM `gameobject` WHERE `id` = 0;
+-- Entry zero is valid: the native spawn-entry/group system chooses its template.
+-- Never delete these parent spawns; pools, events and spawn groups reference them.
+-- Existing installations are repaired by 0020_restore_referenced_gameobjects.sql.
 
 -- Ruul the Darkener's spawn cast is not present in the 2.4.3 spell store.
 DELETE FROM `creature_ai_scripts` WHERE `id` = 2131507 AND `creature_id` = 21315;
